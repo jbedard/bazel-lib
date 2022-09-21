@@ -37,7 +37,10 @@ def _split_on(expr, splits):
         result.append(accumulator)
     return result
 
-GLOB_SYMBOLS = ["**", "*", "?"]
+GLOB_SYMBOLS = ["**", "*", "?"][:]
+
+# Loop "forever" (2^30).
+FOREVER_RANGE = range(1073741824)
 
 def glob_match(expr, path, match_path_separator = False):
     """Test if the passed path matches the glob expression.
@@ -63,7 +66,7 @@ def glob_match(expr, path, match_path_separator = False):
     if expr.find("***") != -1:
         fail("glob_match: invalid *** pattern found in glob expression")
 
-    expr_parts = _split_on(expr, GLOB_SYMBOLS[:])
+    expr_parts = _split_on(expr, GLOB_SYMBOLS)
 
     for i, expr_part in enumerate(expr_parts):
         if expr_part == "**":
@@ -77,8 +80,7 @@ def glob_match(expr, path, match_path_separator = False):
     # Locations a * was terminated that can be rolled back to.
     branches = []
 
-    # Loop "forever" (2^30).
-    for _ in range(1073741824):
+    for _ in FOREVER_RANGE:
         subpath = path[path_i:] if path_i < len(path) else None
         subexpr = expr_parts[expr_i] if expr_i < len(expr_parts) else None
 
