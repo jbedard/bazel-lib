@@ -36,4 +36,4 @@ load(
 
 copy_file = _copy_file
 copy_file_action = _copy_file_action
-COPY_FILE_TOOLCHAINS = ["@aspect_bazel_lib//lib:coreutils_toolchain_type"]
+COPY_FILE_TOOLCHAINS = [Label("@aspect_bazel_lib//lib:coreutils_toolchain_type")]
